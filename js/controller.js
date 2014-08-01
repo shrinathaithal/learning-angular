@@ -36,8 +36,8 @@ app.controller('controller', function($scope, $q, twitterWrapper) {
      */
     $scope.signOut = function() {
         twitterWrapper.clearCache();
-        $scope.foundTweets.length = 0;
-        $('#searchButton, #signOut').fadeOut(function() {
+        $scope.foundTweets = null;
+        $('#search, #results, #searchButton, #signOut').fadeOut(function() {
             $('#login').fadeIn();
         });
     }
@@ -45,7 +45,7 @@ app.controller('controller', function($scope, $q, twitterWrapper) {
     // Start when logged in.
     if (twitterWrapper.ready()) {
         $('#login').hide();
-        $('#search, #searchButton, #signOut').show();
+        $('#search, #searchButton, #signOut, #results').show();
     }
 
 });
