@@ -54,9 +54,9 @@ angular.module('twitter.wrapper', []).factory('twitterWrapper', function($q) {
                 var deferred = $q.defer();
             }
 
-if (!count) { 
-    count = 0;
-}
+            if (!count) {
+                count = 0;
+            }
 
             var promise = deferred.promise;
 
@@ -74,11 +74,11 @@ if (!count) {
 
             twitterHandle.get(url, options)
                     .done(function(data) {
-                        
-                        $scope.results_found+= data.search_metadata.count;
-                        count+= data.search_metadata.count;
+
+                        $scope.resultsFound += data.search_metadata.count;
+                        count += data.search_metadata.count;
                         if (data.search_metadata.next_results) {
-                            deferred.notify(); 
+                            deferred.notify(data.statuses);
                             self.counter($scope, data.search_metadata.next_results, deferred, count);
                         }
                         else {

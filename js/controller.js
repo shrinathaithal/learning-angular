@@ -1,7 +1,7 @@
 app.controller('controller', function($scope, $q, twitterWrapper) {
 
-    $scope.foundTweets = [];
-    $scope.results_found = 0;
+    $scope.statuses = [];
+    $scope.resultsFound = 0;
     twitterWrapper.init();
 
     /**
@@ -13,14 +13,16 @@ app.controller('controller', function($scope, $q, twitterWrapper) {
         $('.spinner').show();
         $('.result_counter').show();
         twitterWrapper.search($scope.query).then(function(data) {
-            $scope.foundTweets = data;
-            
+            $scope.statuses = data.statuses;
+
             // Get the count;
-            $scope.results_found = data.search_metadata.count;
-            twitterWrapper.counter($scope, data.search_metadata.next_results).then(function() {
+            $scope.resultsFound = data.search_metadata.count;
+            twitterWrapper.counter($scope, data.search_metadata.next_results).then(function(data) {
                 $('.search-button-container').show();
-        $('.spinner').hide();
-//                $scope.results_found+= data;
+                $('.spinner').hide();
+            }, function(err) {
+            }, function(update) {
+                $scope.statuses = $scope.statuses.concat(update);
             });
         });
     }
