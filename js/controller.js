@@ -9,7 +9,6 @@ app.controller('controller', function($scope, $q, twitterWrapper) {
      * @returns {undefined}
      */
     $scope.search = function() {
-        $('.search-button-container').hide();
         $('.spinner').show();
         $('.result_counter').show();
         twitterWrapper.search($scope.query).then(function(data) {
@@ -18,7 +17,6 @@ app.controller('controller', function($scope, $q, twitterWrapper) {
             // Get the count;
             $scope.resultsFound = data.search_metadata.count;
             twitterWrapper.counter($scope, data.search_metadata.next_results).then(function(data) {
-                $('.search-button-container').show();
                 $('.spinner').hide();
             }, function(err) {
             }, function(update) {

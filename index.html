@@ -4,8 +4,8 @@
         <title>helloAngular</title>
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="http://css-spinners.com/css/spinner/three-quarters.css" type="text/css">
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <link rel="stylesheet" href="css/spinner.css" type="text/css">
+        <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <script src="js/Oauth.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
@@ -29,13 +29,12 @@
             <div class="row">
                 <form class="navbar-form navbar-left" role="search">
                     <div class="col-xs-12">
-                        <div class="col-lg-11">
+                        <div class="col-lg-10">
                             <div class="input-group">
                                 <input ng-model="query" ng-keypress="$event.keyCode == 13 ? search() : return;" type="text" id="search"  placeholder="Search to get started" style='display:none;' class="form-control" autofocus="autofocus">
                                 <span class="input-group-btn search-button-container">
                                     <button ng-click="search()" id="searchButton" class="btn btn-default" type="button" style="display:none;">Go!</button>
                                 </span>
-                                <span class="input-group-btn spinner" style="display: none;"><span class="three-quarters"></span></span>
                             </div>
                         </div>
                         <button ng-click="auth()" id="login" type="button" class="btn btn-primary">Connect to Twitter</button>
@@ -46,18 +45,38 @@
             </div>
 
             <div class="row result_counter" style="display: none;">
-                <div style="padding-left: 50px;">
+                <div style="padding-left: 50px;" class="col-lg-2">
                     About {{resultsFound}} results 
+                </div>
+                <div class="input-group-btn spinner col-lg-4" style="display: none; margin-top: 4px;">
+                    <div id="fountainG">
+                        <div id="fountainG_1" class="fountainG">
+                        </div>
+                        <div id="fountainG_2" class="fountainG">
+                        </div>
+                        <div id="fountainG_3" class="fountainG">
+                        </div>
+                        <div id="fountainG_4" class="fountainG">
+                        </div>
+                        <div id="fountainG_5" class="fountainG">
+                        </div>
+                        <div id="fountainG_6" class="fountainG">
+                        </div>
+                        <div id="fountainG_7" class="fountainG">
+                        </div>
+                        <div id="fountainG_8" class="fountainG">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12" id="results">
+                <div class="col-xs-12" style="margin-left: 30px;" id="results">
                     <div class="row" ng-repeat="t in statuses">
                         <div class="col-xs-2 col-sm-1">
                             <img ng-src="{{t.user.profile_image_url}}" class="img-circle">
                         </div>
                         <div class="col-xs-10 col-sm-11">
-                            <small>{{t.user.name}}</small> - <small>{{t.created_at | asDate | date:'short'}}</small><br>{{t.text}}
+                            <small>{{t.user.name}}</small> - <small>{{t.created_at| asDate | date:'short'}}</small><br>{{t.text}}
                         </div>
                     </div>
                 </div>
