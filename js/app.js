@@ -1,10 +1,15 @@
 var d3module = angular.module('d3', [])
-        .factory('d3Service', [function() {
-                var d3;
-                // insert d3 code here
-                return d3;
-            }]);
+        .factory('d3Service', ['$q',
+            function($q) {
+                var d = $q.defer(),
+                        d3service = {
+                            d3: function() {
+                                return d.promise;
+                            }
+                        };
 
+                return d3service;
+            }]);
 
 var app = angular.module('twitter', ['twitter.wrapper', 'd3']);
 
@@ -24,8 +29,8 @@ app.directive('grafff', ['d3Service',
             },
             link: function(scope, element) {
                 var margin = {top: 20, right: 20, bottom: 30, left: 40},
-                width = 480 - margin.left - margin.right,
-                        height = 360 - margin.top - margin.bottom;
+                width = 640 - margin.left - margin.right,
+                        height = 240 - margin.top - margin.bottom;
                 var svg = d3.select(element[0])
                         .append("svg")
                         .attr('width', width + margin.left + margin.right)
@@ -47,6 +52,7 @@ app.directive('grafff', ['d3Service',
 
                 //Render graph based on 'data'
                 scope.render = function(data) {
+
                     if (!data) {
                         return;
                     }
@@ -59,13 +65,14 @@ app.directive('grafff', ['d3Service',
                         })]);
 
                     //Redraw the axes
-                    svg.selectAll('g.axis').remove();
+                    svg.selectAll('*').remove();
                     //X axis
                     svg.append("g")
                             .attr("class", "x axis")
                             .attr("transform", "translate(0," + height + ")")
                             .call(xAxis);
-
+                    var color = d3.scale.category10().domain(d3.range(1, 10));
+                    
                     //Y axis
                     svg.append("g")
                             .attr("class", "y axis")
@@ -81,6 +88,10 @@ app.directive('grafff', ['d3Service',
                     bars.enter()
                             .append("rect")
                             .attr("class", "bar")
+                            .attr("fill", function(d) {
+                                console.log(color(d.count));
+                                return color(d.count);
+                            })
                             .attr("x", function(d) {
                                 return x(d.name);
                             })
@@ -89,7 +100,7 @@ app.directive('grafff', ['d3Service',
                     //Animate bars
                     bars
                             .transition()
-                            .duration(1000)
+                            .duration(500)
                             .attr('height', function(d) {
                                 return height - y(d.count);
                             })

@@ -21,6 +21,10 @@ app.controller('controller', ["$scope", "$q", "twitterWrapper", "$filter", funct
                 twitterWrapper.counter($scope, data.search_metadata.next_results).then(function(data) {
                     $('.spinner').hide();
 
+
+                }, function(err) {
+                }, function(update) {
+                    $scope.statuses = $scope.statuses.concat(update);
                     // Count occurrances per hour
                     var graphData = {};
                     $scope.statuses.map(function(status) {
@@ -29,13 +33,14 @@ app.controller('controller', ["$scope", "$q", "twitterWrapper", "$filter", funct
                         graphData[d] = graphData[d] || 0;
                         graphData[d]++;
                     });
-                    
+
                     for (var obj in graphData) {
-                        $scope.graphData.push({"name":obj, "count":graphData[obj]});
+                        $scope.graphData.push({"name": obj, "count": graphData[obj]});
                     }
-                }, function(err) {
-                }, function(update) {
-                    $scope.statuses = $scope.statuses.concat(update);
+
+                    $scope.graphData.sort(function(a, b) {
+                        return a.name - b.name;
+                    });
                 });
             });
         }
