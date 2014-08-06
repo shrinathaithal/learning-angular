@@ -89,7 +89,6 @@ app.directive('grafff', ['d3Service',
                             .append("rect")
                             .attr("class", "bar")
                             .attr("fill", function(d) {
-                                console.log(color(d.count));
                                 return color(d.count);
                             })
                             .attr("x", function(d) {
